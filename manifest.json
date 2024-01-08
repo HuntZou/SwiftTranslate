@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "SwiftTranslate",
+  "description": "A Chrome translation extension as light as Swift",
+  "version": "1.0",
+  "action": {
+    "default_popup": "SwiftTranslate.html",
+    "default_icon": "SwiftTranslate.png"
+  },
+  "host_permissions": [
+        "https://openapi.youdao.com/*"
+    ],
+  "permissions": ["scripting", "activeTab"]
+}
