@@ -10,7 +10,7 @@ function translate(q, from, to) {
 	
 	// 您需要自己去有道翻译官网申请一个应用，再在这里填写你自己的appkey和密钥 https://ai.youdao.com/console/#/app-overview
 	var appKey = '21c93244dd87c2ff';
-	var key = 'tbaSoxrq0daNZ*OqTJJO5w0g2BxMSe*y';  // 分别将两个 * 替换为我名字首字母大写
+	var key = 'tbaSoxrq0daNZ*OqTJJO5w0g2BxMSe*y';  // 给自己说的： 分别将两个 * 替换为我名字首字母大写
 	var salt = (new Date).getTime();
 	var curtime = Math.round(new Date().getTime()/1000);
 	var query = q;
@@ -38,25 +38,26 @@ function translate(q, from, to) {
 
 function en2zh() {
 	q = document.getElementById("origin_input").value
-	if (q.trim().length) translate(q.trim(), "en", "zh-CHS")
+	if (q?.trim().length) translate(q.trim(), "en", "zh-CHS")
 	else document.getElementById("result").innerHTML = "输入不能为空 NULL INPUT"
 }
 
 function zh2en() {
 	q = document.getElementById("origin_input").value
-	if (q.trim().length) translate(q.trim(), "zh-CHS", "en")
+	if (q?.trim().length) translate(q.trim(), "zh-CHS", "en")
 	else document.getElementById("result").innerHTML = "输入不能为空 NULL INPUT"
 }
 
 // 自动获取当前选中的文本进行翻译
 chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
-	if (!tabs || tabs.length != 1) return;
-	tab = tabs[0];
+	tab = tabs?.at(0);
+	if (!tab) return;
+	if (/^(chrome|edge).*/.test(tab.url)) return
 	chrome.scripting.executeScript({
       target: {tabId: tab.id},
       func: () => getSelection().toString(),
     }).then(texts => {
-		if (!texts || texts.length != 1 || !texts[0].result.trim().length) return;
+		if (!texts?.at(0)?.result?.trim()?.length) return;
 		selected = texts[0].result.trim();
 		document.getElementById("origin_input").value = selected;
 		translate(selected, "en", "zh-CHS")
@@ -76,13 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	var origin_input = document.getElementById('origin_input');
 	origin_input.addEventListener("keydown", function(event) {
 		if (event.which === 13) {
+			event.preventDefault();
 			if (!event.repeat) {
 				let q = document.getElementById("origin_input").value
 				let regExp = /^[a-zA-Z]+.*$/i;  // 默认以英文开头就是英译汉
 				if (!regExp.test(q)) zh2en()
 				else en2zh()
 			}
-			event.preventDefault();
 		}
 	});
 });
