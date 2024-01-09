@@ -5,15 +5,19 @@
 	<body style="width:400px;height:100px;padding:0;margin:0">
 		<div>
 			<div>
-				<input id="origin_input" maxlength="20" autofocus maxlength=200 placeholder="Danger is very real, but fear, fear is a choice."， style="resize: vertical;width:400px;padding:5px;font-size:16px;"></input>
+				<input id="origin_input" maxlength="20" autofocus maxlength=200 placeholder="Danger is very real, but fear, fear is a choice."， style="resize: vertical;width:400px;padding:5px;font-size:14px;"></input>
 			</div>
 			<div style="margin:5px 0 5px 5px">
 				<button id="btn_en2zh">英译汉</button>
 				<button id="btn_zh2en">汉译英</button>
 				<span style="color:chocolate;">OR press ENTER to translate automatically</span>
 			</div>
+			<div id="voice" style="padding:5px;font-size:14px;display:none">
+				<audio id="audio"></audio>
+				<div>[<span id="phonetic"></span>]<button id="btn_voice" style="margin-left:13px;">🔈</button></div>
+			</div>
 			<div>
-				<div id="result" style="padding:5px;font-size:18px">
+				<div id="result" style="padding:5px;font-size:14px">
 				危险是真实存在的，但恐惧只是一种选择
 				</div>
 			</div>

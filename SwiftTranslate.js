@@ -29,11 +29,48 @@ function translate(q, from, to) {
 		}
 	}).then(r => r.json()).then(resp => {
 		console.log(resp)
-		if (resp.errorCode == "0")
-			document.getElementById("result").innerHTML = resp.translation[0]
-		else
+		if (resp.errorCode == "0") {
+			if (resp.basic) {
+				// 显示读音
+				if (resp?.basic['us-phonetic']) {
+					document.getElementById('phonetic').innerHTML = resp?.basic['us-phonetic']
+					document.getElementById('voice').style.display = "block"
+				} else if (resp?.basic['phonetic']) {
+					document.getElementById('phonetic').innerHTML = resp?.basic['phonetic']
+					document.getElementById('voice').style.display = "block"
+				} else {
+					document.getElementById('phonetic').innerHTML = ""
+					document.getElementById('voice').style.display = "none"
+				}
+				
+				// 是否存在可播放读音
+				if (resp?.basic['us-speech']) {
+					document.getElementById("audio").src = resp?.basic['us-speech']
+					document.getElementById('btn_voice').style.display = "inline-block"
+				} else {
+					document.getElementById("audio").src = ""
+					document.getElementById('btn_voice').style.display ="none"
+				}
+				
+				let explains = (resp?.basic?.explains || []).map(e => "<div><span style='color:red;font-weight:800'>></span> " + e.trim() + "</div>").join("")
+				document.getElementById("result").innerHTML = explains
+			} else if (resp.translation) {
+				let explains = (resp?.translation || []).map(e => "<div><span style='color:red;font-weight:800'>></span> " + e.trim() + "</div>").join("")
+				document.getElementById("result").innerHTML = explains
+			} else {
+				document.getElementById('voice').style.display = "none"
+				document.getElementById("result").innerHTML = "!!! 无译文 No translation"
+			}
+		}
+		else {
+			document.getElementById('voice').style.display = "none"
 			document.getElementById("result").innerHTML = "ERROR: " + resp.errorCode
+		}
 	})
+}
+
+function play_voice() {
+	document.getElementById('audio').play()
 }
 
 function en2zh() {
@@ -72,6 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var btn_zh2en = document.getElementById('btn_zh2en');
     btn_zh2en.addEventListener('click', zh2en);
+	
+    var btn_voice = document.getElementById('btn_voice');
+    btn_voice.addEventListener('click', play_voice);
 	
 	// 屏蔽 textarea 的回车按键，当按下回车时进行翻译
 	var origin_input = document.getElementById('origin_input');

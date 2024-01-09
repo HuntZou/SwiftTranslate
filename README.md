@@ -16,7 +16,7 @@
 
 使用该插件首选需要打开浏览器开发者模式
 
-首先将项目clone下来，去 [有道翻译官网](https://ai.youdao.com/console/#/app-overview) 申请一个应用，并在 `SwiftTranslate.js` 文件中替换掉应用id和密钥，然后按下图流程安装即可（给我自己说的：用之前也去看看这个文件有个有个地方需要改动一下）
+首先将项目clone下来放到一个不会轻易删除的目录（我就放到了 `C:\Users\{用户名}\AppData\Local\` 目录下，因为插件的使用会基于该文件夹），去 [有道翻译官网](https://ai.youdao.com/console/#/app-overview) 申请一个应用，并在 `SwiftTranslate.js` 文件中替换掉应用id和密钥，然后按下图流程安装即可（给我自己说的：用之前也去看看这个文件有个有个地方需要改动一下）
 
 ![load](./imgs/load.png)
 
